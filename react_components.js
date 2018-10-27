@@ -35,7 +35,7 @@ class SimpleQuote extends React.Component {
             error: null,
             isLoaded: false,
             quoteData: [],
-            textClass: null
+            textClass: ""
         };
     }
 
@@ -64,30 +64,33 @@ class SimpleQuote extends React.Component {
     }
 
     render() {
-        const { error, isLoaded, quoteData, textClass } = this.state;
+        const { error, isLoaded, quoteData } = this.state;
 
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
             return <div>Loading...</div>;
         } else {
+            if (quoteData.changePercent >= 0) {
+                this.state.textClass = "card-text up";
+            } else {
+                this.state.textClass = "card-text down";
+            }
             return (
                 <div className="simple-quote">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">{quoteData.symbol} {quoteData.companyName}</h5>
-                            <div class="card-text">
-                                <div class="row">
-                                    <div class="col-6">
-                                        {quoteData.latestPrice}
-                                    </div>
-                                    <div class="col-6">
-                                        {quoteData.changePercent}%
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">{quoteData.symbol} ({quoteData.companyName})</h5>
+                        <div class={this.state.textClass}>
+                            <div class="row">
+                                <div class="col-6">
+                                    {quoteData.latestPrice}
                                 </div>
                                 </div>
                             </div>
                             <a href="#" class="btn btn-outline-success mt-3">View Full Quote</a>
                         </div>
+                        <a href="#" class="btn btn-outline-primary mt-3">View Full Quote</a>
                     </div>
                 </div>
             );
