@@ -1,0 +1,9 @@
+/* Text color for when stock is up */
+.up {
+    color: green;
+}
+
+/* Text color for when stock is down */
+.down {
+    color: red;
+}

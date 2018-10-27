@@ -1,24 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>AA Stocks</title>
-    
+
     <!-- Load Boostrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
+
+    <!-- Load site.css -->
+    <link rel="stylesheet" href="site.css">
 </head>
 
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#">#fundingsecured</a>
+
+        <!-- Navbar title -->
+        <a class="navbar-brand" href="#">AA Stocks</a>
+
+        <!-- Navbar expand/collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar expand/collapse content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <!-- Home -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <!-- Watchlist -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Watchlist</a>
+                </li>
+            </ul>
+            <!-- Ticker symbol input and View Quote button -->
+            <form class="form-inline input-group my-2">
+                <input class="form-control" type="search" placeholder="Enter ticker symbol">
+                <button class="btn btn-outline-success" type="submit">View Quote</button>
+            </form>
+        </div>
+
     </nav>
 
+    <br>
+
+    <!-- Content -->
     <div class="container">
-        <p>Insert content here</p>
+        <!-- Sample simple quote -->
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">TSLA (Tesla Inc.)</h5>
+                <div class="card-text up">
+                    <div class="row">
+                        <div class="col-6">
+                            $250.00
+                        </div>
+                        <div class="col-6">
+                            10.00%
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-outline-success mt-3">View Quote</a>
+            </div>
+        </div>
     </div>
 
     <div id="like_button_container"></div>
