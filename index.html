@@ -18,21 +18,17 @@
     </nav>
 
     <div class="container">
-        <p>Insert content here</p>
+        <p>Under construction :)</p>
+
+        <!-- This element is replaced by React -->
+        <div id="root">If you can see this text, React was not properly initialized. </div>
     </div>
 
-    <div id="like_button_container"></div>
+    
+    <!-- SCRIPT LOADING BELOW HERE -->
 
-    <shopping-list name="Mark" />
-
-
-    <!-- Load React. -->
-    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-    <script type="text/jsx" src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-    <script type="text/jsx" src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-
-    <!-- Load our React component. -->
-    <script type="text/jsx" src="test_component.js"></script>
+    <!-- Loads our React components -->
+    <script type="text/jsx" src="react_components.js"></script>
 
     <!-- Load Boostrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -41,6 +37,14 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+
+    <!-- Load React -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+
+    <!-- Converts JSX (React's weird hybrid language) to normal JS to be interpreted by a browser -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
 </body>
 
 </html>
