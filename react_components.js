@@ -1,3 +1,8 @@
+'use strict';
+
+// The element that will be rendered
+const element = React.createElement;
+
 class SimpleQuote extends React.Component {
     constructor(props) {
         super(props);
