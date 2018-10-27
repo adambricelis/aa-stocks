@@ -1,3 +1,8 @@
+'use strict';
+
+// The element that will be rendered
+const element = React.createElement;
+
 class SimpleQuote extends React.Component {
     render() {
         return (
@@ -27,4 +32,4 @@ class SimpleQuote extends React.Component {
 const rootElement = document.getElementById("root");
 
 // Renders the chosen components at the root element in the HTML
-ReactDOM.render(<SimpleQuote />, rootElement);
+ReactDOM.render(element(SimpleQuote), rootElement);
