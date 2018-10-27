@@ -3,6 +3,31 @@
 // The element that will be rendered
 const element = React.createElement;
 
+// Renders and returns a "list" (not a real <ul> or <ol>) of 
+class QuoteList extends React.Component {
+    constructor(props) {
+        // No clue what this does, seesm unnecessary
+        super(props);
+        this.state = {
+            // Holds the HTML elements that will be generated from SimpleQuote
+            quotes: []
+        };
+    }
+
+    render() {
+        // Loops through every ticker symbol provided in the parameters
+        for (var i = 0; i < this.props.symbols.length; i++) {
+
+            // Note: we add a key prop here to allow react to uniquely identify each
+            // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
+            this.state.quotes.push(<SimpleQuote key={i} symbol={this.props.symbols[i]}/>);
+        }
+
+        // Returns the rendered quotes inside a div
+        return this.state.quotes;
+    }
+}
+
 class SimpleQuote extends React.Component {
     constructor(props) {
         super(props);
@@ -48,23 +73,23 @@ class SimpleQuote extends React.Component {
         } else {
             return (
                 <div className="simple-quote">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">{quoteData.symbol} {quoteData.companyName}</h5>
-                        <div class="card-text">
-                            <div class="row">
-                                <div class="col-6">
-                                    {quoteData.latestPrice}
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">{quoteData.symbol} {quoteData.companyName}</h5>
+                            <div class="card-text">
+                                <div class="row">
+                                    <div class="col-6">
+                                        {quoteData.latestPrice}
+                                    </div>
+                                    <div class="col-6">
+                                        {quoteData.changePercent}%
                                 </div>
-                                <div class="col-6">
-                                    {quoteData.changePercent}%
                                 </div>
                             </div>
+                            <a href="#" class="btn btn-outline-success mt-3">View Full Quote</a>
                         </div>
-                        <a href="#" class="btn btn-outline-success mt-3">View Full Quote</a>
                     </div>
                 </div>
-            </div>
             );
         }
     }
@@ -73,5 +98,8 @@ class SimpleQuote extends React.Component {
 // Grabs the root element at which the React elements defined here will be rendered
 const rootElement = document.getElementById("root");
 
+// Defines the ticker symbols of the stocks to be quoted
+var tickerSymbols = ["TSLA", "AMZN", "GOOG", "MSFT"]; 
+
 // Renders the chosen components at the root element in the HTML
-ReactDOM.render(<SimpleQuote symbol="tsla" />, rootElement);
+ReactDOM.render(<QuoteList symbols={tickerSymbols} />, rootElement);
