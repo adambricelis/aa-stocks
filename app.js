@@ -1,33 +1,6 @@
 'use strict';
 
-// The element that will be rendered
-const element = React.createElement;
-
-// Renders and returns a "list" (not a real <ul> or <ol>) of 
-class QuoteList extends React.Component {
-    constructor(props) {
-        // No clue what this does, seesm unnecessary
-        super(props);
-        this.state = {
-            // Holds the HTML elements that will be generated from SimpleQuote
-            quotes: []
-        };
-    }
-
-    render() {
-        // Loops through every ticker symbol provided in the parameters
-        for (var i = 0; i < this.props.symbols.length; i++) {
-
-            // Note: we add a key prop here to allow react to uniquely identify each
-            // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
-            this.state.quotes.push(<SimpleQuote key={i} symbol={this.props.symbols[i]} />);
-        }
-
-        // Returns the rendered quotes inside a div
-        return this.state.quotes;
-    }
-}
-
+// Stock quote with current price, percent change, and option to view full quote
 class SimpleQuote extends React.Component {
     constructor(props) {
         super(props);
@@ -48,11 +21,6 @@ class SimpleQuote extends React.Component {
                         isLoaded: true,
                         quoteData: result
                     });
-                    if (quoteData.changePercent >= 0) {
-                        textClass = "card-text up";
-                    } else {
-                        textClass = "card-text down";
-                    }
                 },
                 (error) => {
                     this.setState({
@@ -84,21 +52,52 @@ class SimpleQuote extends React.Component {
                             <div class={this.state.textClass}>
                                 <div class="row">
                                     <div class="col-6">
-                                        {quoteData.latestPrice}
+                                        ${quoteData.latestPrice.toFixed(2)}
                                     </div>
                                     <div class="col-6">
-                                        {quoteData.changePercent}
+                                        {quoteData.changePercent.toFixed(2)}%
                                     </div>
                                 </div>
                             </div>
+                            <a href="#" class="btn btn-outline-primary mt-3">View Full Quote</a>
                         </div>
-                        <a href="#" class="btn btn-outline-primary mt-3">View Full Quote</a>
                     </div>
                 </div>
             );
         }
     }
 }
+
+// Renders and returns a "list" (not a real <ul> or <ol>) of SimpleQuotes
+class QuoteList extends React.Component {
+    constructor(props) {
+        // No clue what this does, seesm unnecessary
+        super(props);
+        this.state = {
+            // Holds the HTML elements that will be generated from SimpleQuote
+            quotes: []
+        };
+    }
+
+    render() {
+        // Loops through every ticker symbol provided in the parameters
+        for (var i = 0; i < this.props.symbols.length; i++) {
+
+            // Note: we add a key prop here to allow react to uniquely identify each
+            // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
+            this.state.quotes.push(<SimpleQuote key={i} symbol={this.props.symbols[i]} />);
+            
+            // Adds break tag for spacing between SimpleQuotes
+            this.state.quotes.push(<br />);
+        }
+
+        // Returns the rendered quotes inside a div
+        return this.state.quotes;
+    }
+}
+
+// The element that will be rendered
+const element = React.createElement;
 
 // Grabs the root element at which the React elements defined here will be rendered
 const rootElement = document.getElementById("root");
