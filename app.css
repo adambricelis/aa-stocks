@@ -19,3 +19,8 @@
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
+
+/* Displays element inline */
+.display-inline {
+    display: inline;
+}

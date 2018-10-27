@@ -68,17 +68,23 @@ class Navbar extends React.Component {
     }
 }
 
+// Prints large numbers with commas
+const numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
-// Stock quote with current price, percent change, and option to view full quote
-class SimpleQuote extends React.Component {
+// Expandable stock quote with current price, percent change
+class Quote extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             error: null,
             isLoaded: false,
             quoteData: [],
-            textClass: ""
+            textClass: "",
+            viewFullQuote: false
         };
+        this.toggleFullQuote = this.toggleFullQuote.bind(this);
     }
 
     componentDidMount() {
@@ -100,6 +106,11 @@ class SimpleQuote extends React.Component {
             )
     }
 
+    toggleFullQuote() {
+        this.state.viewFullQuote = !this.state.viewFullQuote;
+        this.setState(this.state);
+    }
+
     render() {
         const { error, isLoaded, quoteData } = this.state;
 
@@ -109,30 +120,243 @@ class SimpleQuote extends React.Component {
             return <div>Loading...</div>;
         } else {
             if (quoteData.changePercent >= 0) {
-                this.state.textClass = "card-text up";
+                this.state.textClass = "display-inline up";
             } else {
-                this.state.textClass = "card-text down";
+                this.state.textClass = "display-inline down";
             }
-            return (
-                <div className="simple-quote">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">{quoteData.symbol} ({quoteData.companyName})</h5>
-                            <div class={this.state.textClass}>
-                                <div class="row">
-                                    <div class="col-6">
-                                        ${quoteData.latestPrice.toFixed(2)}
+
+            // Full quote for cryptocurrencies
+            if (this.state.viewFullQuote && quoteData.sector === "cryptocurrency") {
+                return (
+                    <div className="quote">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">{quoteData.symbol} ({quoteData.companyName})</h5>
+
+                                <div class="card-text text-left">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            Price:
+                                            &nbsp;
+                                            <div class={this.state.textClass}>
+                                                ${quoteData.latestPrice.toFixed(2)}
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            Change:
+                                            &nbsp;
+                                            <div class={this.state.textClass}>
+                                                {quoteData.changePercent.toFixed(2)}%
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-6">
-                                        {quoteData.changePercent.toFixed(2)}%
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            Open:
+                                            &nbsp;
+                                            ${quoteData.open.toFixed(2)}
+                                        </div>
+                                        <div class="col-6">
+                                            Close:
+                                            &nbsp;
+                                            ${quoteData.close.toFixed(2)}
+                                        </div>
                                     </div>
+
+                                    <div>
+                                        Sector:
+                                        &nbsp;
+                                        {quoteData.sector}
+                                    </div>
+
                                 </div>
+                                <a href="#" onClick={this.toggleFullQuote} class="btn btn-outline-primary mt-3">Collapse Quote</a>
                             </div>
-                            <a href="#" class="btn btn-outline-primary mt-3">View Full Quote</a>
                         </div>
                     </div>
-                </div>
-            );
+                );
+            }
+            // Full quote with sector info
+            else if (this.state.viewFullQuote && quoteData.sector) {
+                return (
+                    <div className="quote">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">{quoteData.symbol} ({quoteData.companyName})</h5>
+
+                                <div class="card-text text-left">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            Price:
+                                            &nbsp;
+                                            <div class={this.state.textClass}>
+                                                ${quoteData.latestPrice.toFixed(2)}
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            Change:
+                                            &nbsp;
+                                            <div class={this.state.textClass}>
+                                                {quoteData.changePercent.toFixed(2)}%
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            Open:
+                                            &nbsp;
+                                            ${quoteData.open.toFixed(2)}
+                                        </div>
+                                        <div class="col-6">
+                                            Close:
+                                            &nbsp;
+                                            ${quoteData.close.toFixed(2)}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            52W High:
+                                            &nbsp;
+                                            {quoteData.week52High}
+                                        </div>
+                                        <div class="col-6">
+                                            52W Low:
+                                            &nbsp;
+                                            {quoteData.week52Low}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        Market Capitalization:
+                                        &nbsp;
+                                        ${numberWithCommas(quoteData.marketCap)}
+                                    </div>
+
+                                    <div>
+                                        Primary Exchange:
+                                        &nbsp;
+                                        {quoteData.primaryExchange}
+                                    </div>
+
+                                    <div>
+                                        Sector:
+                                        &nbsp;
+                                        {quoteData.sector}
+                                    </div>
+
+                                </div>
+                                <a href="#" onClick={this.toggleFullQuote} class="btn btn-outline-primary mt-3">Collapse Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+            // Full quote without sector info 
+            else if (this.state.viewFullQuote) {
+                return (
+                    <div className="quote">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">{quoteData.symbol} ({quoteData.companyName})</h5>
+
+                                <div class="card-text text-left">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            Price:
+                                            &nbsp;
+                                            <div class={this.state.textClass}>
+                                                ${quoteData.latestPrice.toFixed(2)}
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            Change:
+                                            &nbsp;
+                                            <div class={this.state.textClass}>
+                                                {quoteData.changePercent.toFixed(2)}%
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            Open:
+                                            &nbsp;
+                                            ${quoteData.open.toFixed(2)}
+                                        </div>
+                                        <div class="col-6">
+                                            Close:
+                                            &nbsp;
+                                            ${quoteData.close.toFixed(2)}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            52W High:
+                                            &nbsp;
+                                            {quoteData.week52High}
+                                        </div>
+                                        <div class="col-6">
+                                            52W Low:
+                                            &nbsp;
+                                            {quoteData.week52Low}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        Market Capitalization:
+                                        &nbsp;
+                                        ${numberWithCommas(quoteData.marketCap)}
+                                    </div>
+
+                                    <div>
+                                        Primary Exchange:
+                                        &nbsp;
+                                        {quoteData.primaryExchange}
+                                    </div>
+
+                                </div>
+                                <a href="#" onClick={this.toggleFullQuote} class="btn btn-outline-primary mt-3">Collapse Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+            // Mini quote
+            else {
+                return (
+                    <div className="quote">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">{quoteData.symbol} ({quoteData.companyName})</h5>
+
+                                <div class="card-text text-left">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            Price:
+                                            &nbsp;
+                                            <div class={this.state.textClass}>
+                                                ${quoteData.latestPrice.toFixed(2)}
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            Change:
+                                            &nbsp;
+                                            <div class={this.state.textClass}>
+                                                {quoteData.changePercent.toFixed(2)}%
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="#" onClick={this.toggleFullQuote} class="btn btn-outline-primary mt-3">Expand Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
         }
     }
 }
@@ -154,7 +378,7 @@ class QuoteList extends React.Component {
 
             // Note: we add a key prop here to allow react to uniquely identify each
             // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
-            this.state.quotes.push(<SimpleQuote key={i} symbol={this.props.symbols[i]} />);
+            this.state.quotes.push(<Quote key={i} symbol={this.props.symbols[i]} />);
 
             // Adds break tag for spacing between SimpleQuotes
             this.state.quotes.push(<br key={i + this.props.symbols.length} />);
@@ -188,7 +412,7 @@ class App extends React.Component {
 const rootElement = document.getElementById("root");
 
 // Defines the ticker symbols of the stocks to be quoted
-var tickerSymbols = ["TSLA", "AMZN", "GOOG", "MSFT"];
+var homeTickerSymbols = ["SPY", "ONEQ", "IWM", "BTCUSDT"];
 
 // Renders the chosen components at the root element in the HTML
-ReactDOM.render(<App symbols={tickerSymbols} />, rootElement);
+ReactDOM.render(<App symbols={homeTickerSymbols} />, rootElement);
