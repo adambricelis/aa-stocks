@@ -36,7 +36,7 @@ class Navbar extends React.Component {
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
+                        {/* <ul class="navbar-nav mr-auto">
 
                             <li class="nav-item active">
                                 <a class="nav-link" href="#">Home</a>
@@ -45,7 +45,7 @@ class Navbar extends React.Component {
                             <li class="nav-item active">
                                 <a class="nav-link" href="#">Watchlist</a>
                             </li>
-                        </ul>
+                        </ul> */}
 
                         <form onSubmit={this.handleSubmit} class="form-inline input-group my-2">
                             <input type="search" 
