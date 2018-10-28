@@ -378,10 +378,10 @@ class QuoteList extends React.Component {
 
             // Note: we add a key prop here to allow react to uniquely identify each
             // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
-            this.state.quotes.push(<Quote key={i} symbol={this.props.symbols[i]} />);
+            this.state.quotes.push(<Quote key={Math.floor(Math.random() * 1000)} symbol={this.props.symbols[i]} />);
 
             // Adds break tag for spacing between SimpleQuotes
-            this.state.quotes.push(<br key={i + this.props.symbols.length} />);
+            this.state.quotes.push(<br key={Math.floor(Math.random() * 1000)} />);
         }
 
         // Returns the rendered quotes inside a div
@@ -399,9 +399,9 @@ class App extends React.Component {
 
     render() {
         var pagePieces = [
-            <Navbar key={1} />,
+            <Navbar key={Math.floor(Math.random() * 1000)} />,
             // TODO: Make container part of QuoteList
-            <div key={2} id="quote_list" class="container"> <QuoteList symbols={this.props.symbols} /> </div>
+            <div key={Math.floor(Math.random() * 1000)} id="quote_list" class="container"> <QuoteList symbols={this.props.symbols} /> </div>
         ];
 
         return pagePieces;
