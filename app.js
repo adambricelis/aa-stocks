@@ -52,7 +52,8 @@ class Navbar extends React.Component {
                                     class="form-control remove-right-curves"
                                     value={this.state.value} 
                                     onChange={this.handleChange} 
-                                    placeholder="Enter ticker symbol" />
+                                    placeholder="Enter ticker symbol"
+                                    maxlength="4" />
                             <input type="submit"
                                    class="btn btn-primary remove-left-curves"
                                    value="View Quote" />
